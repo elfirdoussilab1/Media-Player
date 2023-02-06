@@ -21,7 +21,7 @@ class Gestion{
         groups(groups), all_multimedias(all_multimedias){};
     
         // destructor
-        ~Gestion(){cout << "Bye gestion \n";};
+        ~Gestion(){cout << "Bye Data Base \n";};
     
         // Creating a Photo and adding it to the map: all_multimedias
 
@@ -58,7 +58,7 @@ class Gestion{
         void displayMultimedia(string name){
             auto it = all_multimedias.find(name);
             if(it != all_multimedias.end()){
-                it->second->printValues(cout); // first pour la clé et second pour l'element
+                it->second->printValues(cout); // first pour la clé et second pour la valeur
             }
             else{
                 cout << "Multimedia not found, please check if the entered name is correct \n";
@@ -105,13 +105,17 @@ class Gestion{
     
         // Deleting a multimedia object from all_multimedias
         void deleteMultimedia(string name){
-            auto it = all_multimedias.find(name);
+            // Removing the Multimedia object from every group
+            for (auto it2 : groups){
+                GroupPtr current = it2->second;
+                current->remove_if([](MultimediaPtr m){return m.getName().compare(name)})
+            }
+
+            // removing the element from the map containing all the Multimedia objects
+            
+            auto it2 = all_multimedias.find(name);
             if(it != all_multimedias.end()){
                 all_multimedias.erase(it);
-                int n = groups.size();
-                for (int i=0; i<n;i++){
-                    //auto it2 = i->second;
-                }
             }
             else{
                 cout << "Multimedia object not found, please check if you entered the correct name \n";
@@ -120,4 +124,6 @@ class Gestion{
         };
         
 };
+
+typedef shared_ptr<Gestion> GestionPtr;
 #endif /* Group_h */

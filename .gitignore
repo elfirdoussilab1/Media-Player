@@ -1,0 +1,29 @@
+#Ignore .class files :
+*.class
+*.classpath
+.classpath
+# Ignore .json files in BDD:
+*.json
+# Ignore the folders extensions and node_modules :
+.extensions
+.node_modules
+
+# Ignore the .idea folder :
+.idea
+#Ignore the .env files:
+*.env
+
+##.DS_Store for Mac_OS configuration files
+.DS_Store
+#VSCode config files
+*.vscode
+
+## igonring .bin for java files
+.bin
+
+## eclipse things
+*.settings
+.settings
+*.project
+
+

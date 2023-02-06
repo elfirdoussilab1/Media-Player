@@ -33,7 +33,17 @@ class Group:public list<MultimediaPtr>{
             }
         
         }
-        
+
+        // Now we will define a method that returns 1 if a Multimedia object exists in the list and 0 otherwise 
+        int containsMultimedia(string name){
+
+            for (auto & it : *this){
+                if (it->getName().compare(name)== 0){
+                    return 1;
+                }
+            }
+            return 0;
+        }
         
         
 };

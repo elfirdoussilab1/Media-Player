@@ -6,6 +6,7 @@
 #include "Photo.h"
 #include "Film.h"
 #include "Group.h"
+#include <memory>
 
 using namespace std;
 
@@ -55,10 +56,10 @@ class Gestion{
         }
 
         // Displaying the values of a multimedia object in all_multimedias
-        void displayMultimedia(string name){
+        void displayMultimedia(string name, ostream & s){
             auto it = all_multimedias.find(name);
             if(it != all_multimedias.end()){
-                it->second->printValues(cout); // first pour la clé et second pour la valeur
+                it->second->printValues(s); // first pour la clé et second pour la valeur
             }
             else{
                 cout << "Multimedia not found, please check if the entered name is correct \n";
@@ -67,10 +68,10 @@ class Gestion{
         };
     
         // Displaying the elements of a group  in groups
-        void displayGroup(string name){
+        void displayGroup(string name, ostream & s){
             auto it = groups.find(name);
             if(it != groups.end()){
-                it->second->display(cout);
+                it->second->display(s);
             }
             else{
                 cout << "Group not found, please check if the entered name is correct \n";
@@ -104,22 +105,25 @@ class Gestion{
         
     
         // Deleting a multimedia object from all_multimedias
-        void deleteMultimedia(string name){
+        void deleteMultimedia(string name_){
             // Removing the Multimedia object from every group
-            for (auto it2 : groups){
+            map<string, GroupPtr>::iterator it2 ;
+            for (it2 = groups.begin(); it2 != groups.end(); ++it2){
                 GroupPtr current = it2->second;
-                current->remove_if([](MultimediaPtr m){return m.getName().compare(name)})
+                auto removeMultimedia = [&](MultimediaPtr m){return m->getName().compare(name_);};
+                auto iterator = std::remove_if(current->begin(), current->end(),removeMultimedia);
+                current->erase(iterator);
             }
 
             // removing the element from the map containing all the Multimedia objects
             
-            auto it2 = all_multimedias.find(name);
+            auto it = all_multimedias.find(name_);
             if(it != all_multimedias.end()){
                 all_multimedias.erase(it);
             }
             else{
                 cout << "Multimedia object not found, please check if you entered the correct name \n";
-            }
+            };
             
         };
         

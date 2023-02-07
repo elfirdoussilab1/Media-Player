@@ -4,51 +4,52 @@
 //
 
 #include <iostream>
+
+#include "Multimedia.h"
 #include "Photo.h"
 #include "Video.h"
 #include "Film.h"
 #include "Group.h"
 #include"Gestion.h"
+
 using namespace std;
 
 int main(int argc, const char* argv[])
 {
-    // Creating a table containing phtos and videos
-    // to do so, we can use the following method:
-    // Creating a table of pointers to Multimedia objects
-    // Example for length of array equals to 3
-    
-    Video * v = new Video("iliass", "/Users/aelfirdo/Desktop/video.mp4",3);
-    v->printValues(cout);
-    v->playMedia();
-    Photo * p = new Photo("iliass akil","/Users/aelfirdo/Desktop/Linkedin.jpeg",12,300);
-    p->printValues(cout);
-    p->playMedia();
-    delete p;
-    delete v;
-    
-    /*MultimediaPtr p = make_shared<Photo>("/Users/aelfirdo/Desktop/5518082.jpg",10,10);
-    
-    Group * g1 = new Group("MonGroupe");
-    
-    g1->push_back(p);
-    g1->display(std::cout);
-    Group * g2 = new Group("MonSecondGroup");
-    g2->push_back(p);
-    g2->display(std::cout);
-    cout << g2->size() << std::endl;
-    p.reset();
-    g1->remove(p);
-    g2->remove(p);
-    cout << "coucou \n";
-    multimedias(name] = (MultimediaPtr) video;
-    Gestion * G = new Gestion();
-    G->displayMultimedia("photo1");
-    G->displayGroup("group1");*/
-    //Multimedia * f = new Film();
-    //delete f;
+    int tab[3];
+    tab[0] = 1;
+    tab[1] = 2;
+    tab[2] = 3;
+    GestionPtr database = make_shared<Gestion>();
+    PhotoPtr photo = database->createPhoto("Photo 1", "/path/to/photo1", 10, 20);
+    VideoPtr video = database->createVideo("Video 1", "/path/to/video1", 98);
+    FilmPtr film = database->createFilm("Film 1", "/path/to/film1", 120, 3,tab);
+    GroupPtr group = database->createGroup("Group 1");
+
+    group->push_back(photo);
+    group->push_back(video);
+    group->push_back(film);
+
+    cout << "Display a photo in the database:" << endl;
+    database->displayMultimedia("Photo 1", cout);
+
+    cout << "\nDisplay a video in the database:" << endl;
+    database->displayMultimedia("Video 1", cout);
+
+    cout << "\nDisplay a film in the database:" << endl;
+    database->displayMultimedia("Film 1", cout);
+
+    cout << "\nDisplay a group in the database:" << endl;
+    database->displayGroup("Group 1", cout);
+
+    cout << "\nTry to remove \"Photo 1\" from the database:" << endl;
+    database->deleteMultimedia("Photo 1");
+
+    cout << "\nDisplay \"Group 1\" a second time to see if \"Photo 1\" was correctly removed from the group:" << endl;
+    database->displayGroup("Group 1", cout);
+
     return 0;
-}
+};
 
 // links : "/Users/aelfirdo/Desktop/video.mp4"
 // "/Users/aelfirdo/Desktop/5518082.jpg"

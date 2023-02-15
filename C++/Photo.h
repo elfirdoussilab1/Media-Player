@@ -22,7 +22,9 @@ class Photo:public Multimedia {
         // destructor
         ~Photo(){cerr << "Good Bye photo \n";};
 
-        // Getters ans setters
+        /*
+        @ Getters and setters
+        */
         int getLength() const {return length;};
 
         int getHeight() const {return height;};
@@ -32,7 +34,7 @@ class Photo:public Multimedia {
         void setHeight(int height){this->height = height;};
 
         // override the method printValues
-        void printValues(ostream & s) override {
+        void printValues(ostream & s) const override {
             Multimedia::printValues(s); 
             s << "Length : " << length << std::endl
               << "Height : " << height << std::endl;

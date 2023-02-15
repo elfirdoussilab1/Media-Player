@@ -19,7 +19,7 @@ void Multimedia::setName(std::string name){
 void Multimedia::setPath(std::string path){
     this->path = path;
 }
-void Multimedia::printValues(std::ostream & s) {
+void Multimedia::printValues(std::ostream & s) const {
     s << "Name : " << name << std::endl
       << "Path : " << path << std::endl;    
 }

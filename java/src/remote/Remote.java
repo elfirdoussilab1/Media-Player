@@ -1,4 +1,4 @@
-package remote;
+package Remote;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -29,10 +29,7 @@ public class Remote extends JFrame{
 	public Remote(String name) {
 		super("Remote control");
 		
-		
-		
 		// Adding buttons to the first panel.
-		
 		
 		setLayout(new BorderLayout());
 		
@@ -51,10 +48,9 @@ public class Remote extends JFrame{
 		
 		// connecting buttons to their listeners
 		button1.addActionListener(new Button1Listener());
-		
+		button2.addActionListener(new Button2Listener());
+		button3.addActionListener(new Button3Listener());
 		// Setting default functions related to our Frame
-		
-		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
@@ -69,15 +65,30 @@ public class Remote extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			
 			// we will add a new row, and then insert our text in that row
-			
 			int nRows = textArea.getRows();
-			
 			textArea.setRows(nRows + 1);
-			
 			textArea.append("Je suis créé par le premier bouton \n");
 			
 		}
 		
+	}
+	class Button2Listener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			// we will add a new row, and then insert our text in that row
+			int nRows = textArea.getRows();
+			textArea.setRows(nRows + 1);
+			textArea.append("Je suis créé par le deuxième bouton \n");
+			
+		}
+	}
+	class Button3Listener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+			
+		}
 	}
 	
 	

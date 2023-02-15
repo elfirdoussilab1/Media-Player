@@ -27,7 +27,7 @@ class Group:public list<MultimediaPtr>{
                 s << "There is no element in this group : " << name << endl;;
             }
             else{
-                for (auto & it: *this){
+                for (auto & it: *this){ // 'it' is a MultimediaPtr
                     it->printValues(s);
                 }
             }

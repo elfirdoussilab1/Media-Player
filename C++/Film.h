@@ -8,12 +8,14 @@ class Film:public Video{
     private:
 
         int n_chapters{};
-        int* chapters;
+        int * chapters;
 
     public :
 
+    /// @brief Constructors
     Film():Video(){};
 
+    // We can also so here a deep copy
     Film(string name, string path, int duration, int n_chapters, int* chapters_): Video(name,path, duration), n_chapters(n_chapters){
         chapters = new int[n_chapters];
         for (int i=0; i<n_chapters; i++){
@@ -21,16 +23,20 @@ class Film:public Video{
         }
     };
     
+    /// @brief The destructor of a Film object displays "Good Bye Film" when it's called
     ~Film(){
         delete[] chapters;
         cout << "Good bye Film \n";
     }
 
-    // Getters
+    /// @brief Getter for the array chapters
+    /// @return a const value of the array, so that it can be accessed only in reading
     const int * getChapters() const { // this array should not be changed by the user exept by the function setChapters
         return chapters;
     };
 
+    /// @brief Getter for the number of chapters in the Film
+    /// @return number of chapters
     int getNumberOfChapters() const{
         return n_chapters;
     };
@@ -56,7 +62,9 @@ class Film:public Video{
         }
     };
 
-    void printValues(ostream & s) final {
+    /// @brief The function is final since we will not refedine this function in another subclass of Film
+    /// @param s 
+    void printValues(ostream & s) const final {
         Video::printValues(s);
         for (int i=0; i<n_chapters; i++){
             s << " Duration of Chapter " << i+1 << " : " << chapters[i] << std::endl;

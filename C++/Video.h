@@ -10,22 +10,31 @@ class Video:public Multimedia {
         int duration{};
     
     public:
-        Video():Multimedia(){};
+        /// @brief Constructors of a Video object
+        Video() : Multimedia(){};
 
         Video(string name, string path, int duration) : Multimedia(name,path), duration(duration){};
 
+        /// @brief Destructor that displays "Good Bye Video " when we destroy a video object
         virtual ~Video() {cerr << "Good Bye Video \n";};
 
+        /// @brief Getter for duration
+        /// @return duration
         int getDuration() const {return duration;};
 
+        /// @brief Setter for 
+        /// @param duration 
         void setDuration(int duration){this->duration = duration;};
         
-        void printValues(ostream & s) override {
+        /// @brief displaying the values of instance variables in the terminal
+        /// @param s which is an ostream &
+        void printValues(ostream & s) const override {
             Multimedia::printValues(s); 
             s << "Duration : " << duration << std::endl;
               
         };
 
+        /// @brief 
         void playMedia() const override{
             // command linux
             string com_linux = "mpv " + path + " &";

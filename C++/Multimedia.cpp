@@ -1,5 +1,5 @@
 #include "Multimedia.h"
-#include <sstream>
+#include <iostream>
 // Implementatin of all methods declared in Multimedia.h
 using namespace std;
 

@@ -2,7 +2,6 @@
 #ifndef Media_Multimedia
 #define Media_Multimedia
 
-#include <string>
 #include <iostream>
 #include <memory>
 using namespace std;

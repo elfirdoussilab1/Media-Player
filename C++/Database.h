@@ -18,7 +18,7 @@ class Database{
         /// @brief Default constructor
         Database(){}
     
-        /// @brief Constructor of 
+        /// @brief Constructor of Database
         /// @param groups 
         /// @param multimedias 
         Database(map<string, GroupPtr> const & groups, map<string, MultimediaPtr> const & multimedias):
@@ -26,7 +26,7 @@ class Database{
     
         
         /// @brief Destructor of the Database
-        ~Database(){cout << "Bye Data Base \n";}
+        ~Database(){cout << "Bye DataBase \n";}
     
 
         /// @brief Creates a Photo and add it to the map multimedias
@@ -76,6 +76,22 @@ class Database{
             return g;
         }
 
+        /// @brief Adding a Multimedia object ot a certain group
+        /// @param m 
+        /// @param name 
+        void addMultimediaToGroup(string const & m_name, string const & g_name){
+            auto it = groups.find(g_name);
+            if(it != groups.end()){
+                MultimediaPtr m = multimedias.find(m_name)->second;
+                it->second->addMultimedia(m);
+            }
+            else{ // we create the group
+                GroupPtr new_group = this->createGroup(g_name);
+                auto it = multimedias.find(m_name);
+                new_group->addMultimedia(it->second);
+            }
+        }
+
 
         /// @brief Displays the values of a Multimedia object in multimedias
         /// @param name 
@@ -114,13 +130,14 @@ class Database{
         
         /// @brief Plays a Multimedia object in multimedias
         /// @param name 
-        void playMultimedia(string const & name) const {
+        int playMultimedia(string const & name) const {
             auto it = multimedias.find(name);
             if(it != multimedias.end()){
                 it->second->playMedia();
+                return  1;
             }
             else{
-                cout << "Group not found, please check if the entered name is correct \n";
+                return 0;
             }
             
         };
@@ -157,9 +174,6 @@ class Database{
             if(it != multimedias.end()){
                 multimedias.erase(it);
             }
-            else{
-                cout << "Multimedia object not found, please check if you entered the correct name \n";
-            };
             
         }
         

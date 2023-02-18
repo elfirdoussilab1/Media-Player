@@ -12,16 +12,51 @@ class Film:public Video{
 
     public :
 
-    /// @brief Constructors
-    Film():Video(){};
+    /// @brief Default Constructor of Film
+    Film() : Video(){};
 
-    // We can also so here a deep copy
-    Film(string name, string path, int duration, int n_chapters, int* chapters_): Video(name,path, duration), n_chapters(n_chapters){
+    
+    /// @brief Constructor of Film object
+    /// @param name 
+    /// @param path 
+    /// @param duration 
+    /// @param n_chapters 
+    /// @param chapters_ 
+    Film(string const & name, string const & path, int duration, int n_chapters, int * chapters_): Video(name,path, duration), n_chapters(n_chapters){
         chapters = new int[n_chapters];
         for (int i=0; i<n_chapters; i++){
             chapters[i] = chapters_[i];
         }
     };
+
+    /// @brief Copy constructor (to perform deep copy)
+    /// @param from (Film const reference)
+    Film(const Film & from) : Video(from){
+        n_chapters = from.n_chapters;
+        if (from.chapters){
+            chapters = new int[n_chapters];
+            for (int i=0; i<n_chapters; i++){
+                chapters[i] = from.chapters[i];
+            }
+        } else{ chapters = nullptr;}
+
+    }
+
+    /// @brief Redefining operator = to perform deep copy
+    /// @param from 
+    /// @return Film &
+    Film & operator=(const Film & from){
+        Video::operator=(from);
+        n_chapters = from.n_chapters;
+        if (from.chapters){
+            chapters = new int[n_chapters];
+            for (int i=0; i<n_chapters; i++){
+                chapters[i] = from.chapters[i];
+            }
+        } 
+        else{ chapters = nullptr;}
+        return *this;
+    }
     
     /// @brief The destructor of a Film object displays "Good Bye Film" when it's called
     ~Film(){
@@ -41,7 +76,9 @@ class Film:public Video{
         return n_chapters;
     };
 
-    // Setters
+    /// @brief Setter of array chapters of Film
+    /// @param new_n_chapters 
+    /// @param new_chapters 
     void setChapters(int new_n_chapters, int * new_chapters){
         // verify if one of the parameters are null
         if ((new_n_chapters ==0) || (new_chapters == nullptr)){
@@ -72,5 +109,6 @@ class Film:public Video{
     }
 
 };
+
 typedef shared_ptr<Film> FilmPtr;
 #endif

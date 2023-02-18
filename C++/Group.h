@@ -11,17 +11,27 @@ class Group:public list<MultimediaPtr>{
         string name;
     
     public:
-        // constructors
+        /// @brief Default constructor of Group
         Group(){};
     
-        Group(string name): list<MultimediaPtr>(), name(name){};
+        /// @brief Constructor of Group
+        /// @param name 
+        Group(string const & name): list<MultimediaPtr>(), name(name){};
         
-        // Getter
-        string getName() const{
+        
+        /// @brief Getter of the name of a Group
+        /// @return the name of this Group
+        string const & getName() const{
             return name;
         }
         
-        // Printing values of attibuts of each element of this group
+        /// @brief Adding a Multimedia to this group
+        /// @param m 
+        void addMultimedia(MultimediaPtr m){
+            this->push_back(m);
+        }
+        /// @brief Printing values of attibuts of each element of this group
+        /// @param s 
         void display(ostream & s) const {
             if (this->size() == 0){
                 s << "There is no element in this group : " << name << endl;;
@@ -34,7 +44,9 @@ class Group:public list<MultimediaPtr>{
         
         }
 
-        // Now we will define a method that returns 1 if a Multimedia object exists in the list and 0 otherwise 
+        /// @brief This function tells us whether a Multimedia object belong to this Group or not
+        /// @param name 
+        /// @return 1 if Multimedia belongs to this Group, 0 otherwise
         int containsMultimedia(string name){
 
             for (auto & it : *this){

@@ -13,43 +13,42 @@ class Multimedia {
         string path{}; // path to object to be read
     
     public:
-        // constructor that doesn't take any argumet
+        
+        /// @brief Default Constructor of Multimedia
         Multimedia(){};
 
         /// @brief constructor of Multimedia object
         /// @param name 
         /// @param path 
-        Multimedia(string name, string path) ;
+        Multimedia(string const & name, string const & path) ;
 
         // destructor is virtual because the method printValues is virtual
         virtual ~Multimedia(){};
         
 
-        /// @brief getter for name
+        /// @brief getter of name
         /// @return the name of the Multimedia object
-        string getName() const ;
+        string const & getName() const ;
 
         /// @brief getter of path
         /// @return the path to the Multimedia file
-        string getPath() const ;
+        string const & getPath() const ;
 
-        /// @brief a setter for the name
-        /// @param name 
-        void setName(string name) ;
+        /// @brief a setter of the name
+        /// @param name (string)
+        void setName(string const & name) ;
 
-        /// @brief Setterfor the path
-        /// @param path 
-        void setPath(string path) ;
+        /// @brief Setter of the path
+        /// @param path (string)
+        void setPath(string const & path) ;
         
         /// @brief This method is virtual because we will redefine it in subclasses of Multimedia
-        /// @param s 
+        /// @param s (ostram &)
         virtual void printValues(ostream & s) const;  
 
-        /// @brief 
+        /// @brief an abstract method to play the Media 
         virtual void playMedia() const = 0; 
-        // This method is abstract because we use different command to play
-        // each type of Multimedia object. So it cannot be defined here.
-        // Using this method we can play our Multimdia object.
+        
 
 };
 typedef shared_ptr<Multimedia> MultimediaPtr;

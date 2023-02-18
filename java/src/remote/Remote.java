@@ -9,30 +9,52 @@ public class Remote extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
-	// This Frame contains 3 buttons and one textArea
+	// This Frame components of the interface
 	
 	JTextArea textArea;
-	
 	JButton button1, button2, button3;
+	JScrollPane scrollPane1;
+	JMenuBar menuBar;
+	JMenu menu;
+	JToolBar toolBar;
+	JMenuItem playMenuItem;
 	
 	// We will put these elements in Panels
-	
 	JPanel panel1 = new JPanel();
 	JPanel panel2 = new JPanel();
 	
 	
+	/**
+	 * @param argv
+	 * Main function
+	 */
 	public static void main(String argv[]) {
 		Remote remote = new Remote("Remote control");
 	}
 	
-	
+	/**
+	 * @param name
+	 * The constructor of our Remote Control
+	 */
 	public Remote(String name) {
+		// Calling constructor of the upper class
 		super("Remote control");
-		
+		// Creating the menu, menuBar and toolBar
+		playMenuItem = new JMenuItem("Play");
+		menu = new JMenu("File");
+		menuBar = new JMenuBar();
+		toolBar = new JToolBar("My Tool Bar");
+
+		// Connecting these three elemnts to each other;
+		menu.add(playMenuItem);
+		menuBar.add(menu);
+		menuBar.add(toolBar);
+
+		// Displaying Menu Bar
+		setJMenuBar(menuBar);
+
 		// Adding buttons to the first panel.
-		
 		setLayout(new BorderLayout());
-		
 		panel1.add(button1 = new JButton("Button1"), BorderLayout.WEST);
 		panel1.add(button2 = new JButton("Button2"), BorderLayout.CENTER);
 		panel1.add(button3 = new JButton("Button3"), BorderLayout.EAST);
@@ -41,15 +63,19 @@ public class Remote extends JFrame{
 		
 		add(panel1, BorderLayout.SOUTH);
 		
-		// Adding the TextArea to the second Panel
-		
-		panel2.add(textArea = new JTextArea("Enter here", 10, 50), BorderLayout.CENTER);
+		// Adding the TextArea to the ScrollPane
+		scrollPane1 = new JScrollPane(textArea = new JTextArea("Enter here", 10, 50));
+
+		// Adding ScrollPane into our second Panel
+		panel2.add(scrollPane1);
 		add(panel2, BorderLayout.CENTER);
 		
+
 		// connecting buttons to their listeners
 		button1.addActionListener(new Button1Listener());
 		button2.addActionListener(new Button2Listener());
 		button3.addActionListener(new Button3Listener());
+
 		// Setting default functions related to our Frame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();

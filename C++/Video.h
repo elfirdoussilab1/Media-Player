@@ -10,10 +10,14 @@ class Video:public Multimedia {
         int duration{};
     
     public:
-        /// @brief Constructors of a Video object
+        /// @brief Default Constructor of Video
         Video() : Multimedia(){};
 
-        Video(string name, string path, int duration) : Multimedia(name,path), duration(duration){};
+        /// @brief 
+        /// @param name 
+        /// @param path 
+        /// @param duration 
+        Video(string const & name, string const & path, int duration) : Multimedia(name,path), duration(duration){};
 
         /// @brief Destructor that displays "Good Bye Video " when we destroy a video object
         virtual ~Video() {cerr << "Good Bye Video \n";};
@@ -34,7 +38,7 @@ class Video:public Multimedia {
               
         };
 
-        /// @brief 
+        /// @brief This method plays the Video
         void playMedia() const override{
             // command linux
             string com_linux = "mpv " + path + " &";

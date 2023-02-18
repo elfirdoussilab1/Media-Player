@@ -8,38 +8,53 @@ using namespace std;
 
 class Photo:public Multimedia {
     private:
-
         int length{};
         int height{};
 
     public:
 
-        // constructors
-        Photo(){};
+        /// @brief Default Constructor of Photo
+        Photo() : Multimedia(){};
 
-        Photo(string name, string path, int length, int height) : Multimedia(name,path),length(length),height(height){};
+        /// @brief Constructor of Photo
+        /// @param name 
+        /// @param path 
+        /// @param length 
+        /// @param height 
+        Photo(string const & name, string const & path, int length, int height) : Multimedia(name,path),length(length),height(height){};
 
-        // destructor
-        ~Photo(){cerr << "Good Bye photo \n";};
+        
+        /// @brief Destructor of photo
+        ~Photo(){cerr << "Good Bye photo \n";}
 
-        /*
-        @ Getters and setters
-        */
-        int getLength() const {return length;};
+        
+        /// @brief Getter of length
+        /// @return length of the photo (int)
+        int getLength() const {return length;}
 
-        int getHeight() const {return height;};
+        /// @brief getter of height
+        /// @return height of the photo (int)
+        int getHeight() const {return height;}
 
-        void setLength(int length){this->length = length;};
+        /// @brief Setter of length
+        /// @param length 
+        void setLength(int length){this->length = length;}
 
-        void setHeight(int height){this->height = height;};
+        /// @brief setter of height
+        /// @param height 
+        void setHeight(int height){this->height = height;}
 
-        // override the method printValues
+        
+        /// @brief Dsiplaying values of instance variables
+        /// @param s 
         void printValues(ostream & s) const override {
             Multimedia::printValues(s); 
             s << "Length : " << length << std::endl
               << "Height : " << height << std::endl;
               
-        };
+        }
+
+        /// @brief Opening the Photo and showing it
         void playMedia() const override {
             // command linux
             string com_linux = "imagej " + path + " &";

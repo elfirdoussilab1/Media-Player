@@ -1,25 +1,44 @@
 #include "Multimedia.h"
 #include <sstream>
 // Implementatin of all methods declared in Multimedia.h
+using namespace std;
 
-Multimedia::Multimedia(std::string name, std::string path){
+/// @brief constructor of Multimedia object
+/// @param name 
+/// @param path 
+Multimedia::Multimedia(string const & name, string const & path){
     this->name = name;
     this->path = path;
 }
 
-std::string Multimedia::getName() const {
+/// @brief getter of name
+/// @return the name of the Multimedia object
+string const & Multimedia::getName() const {
     return name;
 }
-std::string Multimedia::getPath() const {
+
+/// @brief getter of path
+/// @return the path to the Multimedia file
+string const & Multimedia::getPath() const {
     return path;
 }
-void Multimedia::setName(std::string name){
+
+/// @brief a setter of the name
+/// @param name (string)
+void Multimedia::setName(string const & name){
     this->name = name;
 }
-void Multimedia::setPath(std::string path){
+
+/// @brief Setter of the path
+/// @param path (string)
+void Multimedia::setPath(string const & path){
     this->path = path;
 }
-void Multimedia::printValues(std::ostream & s) const {
+
+
+/// @brief This method displays in the output stream s the values of each variable of the Multimedia object
+/// @param s 
+void Multimedia::printValues(ostream & s) const {
     s << "Name : " << name << std::endl
       << "Path : " << path << std::endl;    
 }

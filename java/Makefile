@@ -9,12 +9,12 @@
 #
 # Nom du programme (doit correspondre au fichier qui contient main())
 #
-PROG = RemoteControl
+PROG = Main
 
 #
 # Fichiers sources .java
 #
-SOURCES =  Client.java Remote.java 
+SOURCES=Remote.java Client.java Main.java
 
 #
 # Compilateur Java
@@ -55,3 +55,5 @@ tar:
 
 .java.class:
 	$(JC) $(JFLAGS) $*.java
+
+

@@ -5,19 +5,19 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-public class Remote extends JFrame{
+public class Remote extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
 	// This Frame components of the interface
 	
 	private JTextArea textArea;
-	private JButton createPhotoButton, createVideoButton, createFilmButton, createGroupButton, displayButton, deleteButton, playButton;
+	private JButton createPhotoButton, createVideoButton, createGroupButton, displayButton, deleteButton, playButton;
 	private JTextField namePhotoField, pathPhotoField, lengthPhotoField, heightPhotoField, groupPhotoField;
 	private JTextField nameVideoField, pathVideoField, durationVideoField, groupVideoField;
-	private JTextField nameFilmField, pathFilmField, durationFilmField, nchaptersField, chaptersFilmField, groupFilmField;
+	
 	private JTextField nameGroupField;
-	private JComboBox<String> displayGroupBox, displayMBox, deleteGroupBox, deleteMBox, playBox;
+	private JTextField deleteTextField, displayTextField, playTextField;
 	private ButtonGroup displayButtonGroup, deleteButtonGroup;
 
 	// We will put these elements in Panels
@@ -55,23 +55,54 @@ public class Remote extends JFrame{
 		// Creating JPanel with a GridLayout of 7 rows and 1 column
 		mainPanel = new JPanel(new GridLayout(7, 1));
 
-		// First row : Create Photo
+		// Text Area
+		JPanel areaPanel = new JPanel();
+		JLabel labelArea = new JLabel("Screen");
+		JScrollPane scrollPane1 = new JScrollPane(textArea = new JTextArea("", 10, 50));
+		areaPanel.add(labelArea, BorderLayout.NORTH);
+		areaPanel.add(scrollPane1, BorderLayout.CENTER);
+		mainPanel.add(areaPanel);
+
+		// Second row : Create Photo
 		photoPanel = new JPanel(new FlowLayout()); 
 		createPhotoButton = new JButton("Create Photo");
-		createPhotoButton.setPreferredSize(new Dimension(200, 30));
-		JLabel lableemail=new JLabel("Enter The name");
-		namePhotoField = new JTextField("Name");
-		namePhotoField.setColumns(15);
-		pathPhotoField = new JTextField("Path");
-		lengthPhotoField = new JTextField("Length");
-		heightPhotoField = new JTextField("Height");
-		groupPhotoField = new JTextField("Group");
+		createPhotoButton.setPreferredSize(new Dimension(200, 50));
+
+		JLabel labelPhotoName = new JLabel("Name:");
+		namePhotoField = new JTextField("");
+		namePhotoField.setColumns(10);
+
+		JLabel labelPhotoPath = new JLabel("Path:");
+		pathPhotoField = new JTextField("");
+		pathPhotoField.setColumns(10);
+
+		JLabel labelPhotoLength = new JLabel("Length:");
+		lengthPhotoField = new JTextField("");
+		lengthPhotoField.setColumns(10);
+
+		JLabel labelPhotoHeight = new JLabel("Height:");
+		heightPhotoField = new JTextField("");
+		heightPhotoField.setColumns(10);
+
+		JLabel labelPhotoGroup = new JLabel("Group:");
+		groupPhotoField = new JTextField("");
+		groupPhotoField.setColumns(10);
+
 		photoPanel.add(createPhotoButton);
-		photoPanel.add(lableemail);
+
+		photoPanel.add(labelPhotoName);
 		photoPanel.add(namePhotoField);
+
+		photoPanel.add(labelPhotoPath);
 		photoPanel.add(pathPhotoField);
+
+		photoPanel.add(labelPhotoLength);
 		photoPanel.add(lengthPhotoField);
+
+		photoPanel.add(labelPhotoHeight);
 		photoPanel.add(heightPhotoField);
+
+		photoPanel.add(labelPhotoGroup);
 		photoPanel.add(groupPhotoField);
 
 		mainPanel.add(photoPanel);
@@ -79,15 +110,35 @@ public class Remote extends JFrame{
 		// Creating a Video
 		videoPanel = new JPanel(new FlowLayout()); 
 		createVideoButton = new JButton("Create Video");
-		createVideoButton.setPreferredSize(new Dimension(200, 30));
-		nameVideoField = new JTextField("Enter name");
-		pathVideoField = new JTextField("Enter path");
-		durationVideoField = new JTextField("Enter diration");
-		groupVideoField = new JTextField("Group");
+		createVideoButton.setPreferredSize(new Dimension(200, 50));
+
+		JLabel labelVideoName = new JLabel("Name:");
+		nameVideoField = new JTextField("");
+		nameVideoField.setColumns(10);
+
+		JLabel labelVideoPath = new JLabel("Path:");
+		pathVideoField = new JTextField("");
+		pathVideoField.setColumns(10);
+
+		JLabel labelVideoDuration = new JLabel("Duration:");
+		durationVideoField = new JTextField("");
+		durationVideoField.setColumns(10);
+
+		JLabel labelVideoGroup = new JLabel("Group:");
+		groupVideoField = new JTextField("");
+		groupVideoField.setColumns(10);
+
 		videoPanel.add(createVideoButton);
+		videoPanel.add(labelVideoName);
 		videoPanel.add(nameVideoField);
+
+		videoPanel.add(labelVideoPath);
 		videoPanel.add(pathVideoField);
+
+		videoPanel.add(labelVideoDuration);
 		videoPanel.add(durationVideoField);
+
+		videoPanel.add(labelVideoGroup);
 		videoPanel.add(groupVideoField);
 
 		mainPanel.add(videoPanel);
@@ -95,9 +146,14 @@ public class Remote extends JFrame{
 		// Creating a Group
 		groupPanel = new JPanel(new FlowLayout());
 		createGroupButton = new JButton("Create Group");
-		createGroupButton.setPreferredSize(new Dimension(200, 30));
-		nameGroupField = new JTextField("Name");
+		createGroupButton.setPreferredSize(new Dimension(200, 50));
+
+		JLabel labelGroupName = new JLabel("Name");
+		nameGroupField = new JTextField("");
+		nameGroupField.setColumns(10);
+
 		groupPanel.add(createGroupButton);
+		groupPanel.add(labelGroupName);
 		groupPanel.add(nameGroupField);
 
 		mainPanel.add(groupPanel);
@@ -105,7 +161,7 @@ public class Remote extends JFrame{
 		// Display
 		displayPanel = new JPanel(new FlowLayout());
 		displayButton = new JButton("Display");
-		displayButton.setPreferredSize(new Dimension(200, 30));
+		displayButton.setPreferredSize(new Dimension(200, 50));
 		displayPanel.add(displayButton);
 		// Radio Buttons
 		JPanel displayRadioPanel = new JPanel(new GridLayout(2,1));
@@ -120,17 +176,18 @@ public class Remote extends JFrame{
 		displayRadioPanel.add(displayradio2);
 
 		displayPanel.add(displayRadioPanel);
-		displayGroupBox = new JComboBox<String>();
-		displayMBox = new JComboBox<String>();
-		displayPanel.add(displayMBox);
-		displayPanel.add(displayGroupBox);
-		// We will fill it later
+		JLabel labelNameDisplay = new JLabel("Name:");
+		displayTextField = new JTextField("");
+		displayTextField.setColumns(10);
+
+		displayPanel.add(labelNameDisplay);
+		displayPanel.add(displayTextField);
 		mainPanel.add(displayPanel);
 
 		// Delete
 		deletePanel = new JPanel(new FlowLayout());
 		deleteButton = new JButton("Delete");
-		deleteButton.setPreferredSize(new Dimension(200, 30));
+		deleteButton.setPreferredSize(new Dimension(200, 50));
 		deletePanel.add(deleteButton);
 		// Radio Buttons
 		JPanel deleteRadioPanel = new JPanel(new GridLayout(2,1));
@@ -145,26 +202,28 @@ public class Remote extends JFrame{
 		deleteRadioPanel.add(deleteradio2);
 
 		deletePanel.add(deleteRadioPanel);
-		// Combo Box
-		deleteGroupBox = new JComboBox<String>();
-		deleteMBox = new JComboBox<String>();
-		deletePanel.add(deleteMBox);
-		deletePanel.add(deleteGroupBox);
+
+		JLabel labelNameDelete = new JLabel("Name:");
+		deleteTextField = new JTextField("");
+		deleteTextField.setColumns(10);
+
+		deletePanel.add(labelNameDelete);
+		deletePanel.add(deleteTextField);
 		mainPanel.add(deletePanel);
 
 		// Play
 		playPanel = new JPanel(new FlowLayout());
 		playButton = new JButton("Play");
-		playButton.setPreferredSize(new Dimension(200, 30));
+		playButton.setPreferredSize(new Dimension(200, 50));
 		playPanel.add(playButton);
-		// Combo box
-		playBox = new JComboBox<String>();
-		playPanel.add(playBox);
+		JLabel labelPlay = new JLabel("Name:");
+		playTextField = new JTextField("");
+		playTextField.setColumns(10);
+		playPanel.add(labelPlay);
+		playPanel.add(playTextField);
+		
 		mainPanel.add(playPanel);
 
-		// Text Area
-		JScrollPane scrollPane1 = new JScrollPane(textArea = new JTextArea("Enter here", 10, 50));
-		mainPanel.add(scrollPane1);
 
 		// connecting buttons to their listeners
 		createPhotoButton.addActionListener(new CreatePhotoButtonListener());
@@ -183,7 +242,12 @@ public class Remote extends JFrame{
 		setVisible(true);
 		
 	}
+
+
 	class CreatePhotoButtonListener implements ActionListener {
+		/* 
+		 *  Creates a photo when we press button
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String request = "create Photo " + namePhotoField.getText() + " " + 
@@ -195,41 +259,26 @@ public class Remote extends JFrame{
 				String response = client.send(request);
 				if(response.equals("Done")){
 					textArea.setText("The Photo "+ namePhotoField.getText() + " was created successfully");
-					// Add item to display
-					displayMBox.addItem(namePhotoField.getText());
-					deleteMBox.addItem(namePhotoField.getText());
-					playBox.addItem(namePhotoField.getText());
-					// Add the group name if it doesn't exist already
-					String target = groupPhotoField.getText();
-					boolean flag = true;
-					for (int i = 0; i < displayGroupBox.getItemCount(); i++) {
-						if (displayGroupBox.getItemAt(i).equals(target)) {
-							flag = false;
-							break;
-						}
-					}
-					if (flag){
-						displayGroupBox.addItem(groupPhotoField.getText());
-						deleteGroupBox.addItem(groupPhotoField.getText());
-					}
-				} else{
-					textArea.setText(response);
-					
-				}
+				} else{ textArea.setText(response);}
+				
 			}else{ // non integer values
 				textArea.setText("PLease enter and integer in both length and height fields");
 			}
-			
-			repaint();
-			
-			
-			
+			// Empty fields
+			namePhotoField.setText("");
+			pathPhotoField.setText("");
+			lengthPhotoField.setText("");
+			heightPhotoField.setText("");
+			groupPhotoField.setText("");
 
 		}
 		
 	}
 
 	class CreateVideoButtonListener implements ActionListener {
+		/* 
+		 * Creates a Video when pressing the Button
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String request = "create Video " + nameVideoField.getText() + " " + 
@@ -239,118 +288,105 @@ public class Remote extends JFrame{
 				String response = client.send(request);
 				if (response.equals("Done")){
 					textArea.setText("The Video "+ nameVideoField.getText() + " was created successfully");
-					// Add item to display
-					displayMBox.addItem(nameVideoField.getText());
-					deleteMBox.addItem(nameVideoField.getText());
-					playBox.addItem(nameVideoField.getText());
-					// Add the group name if it doesn't exist already
-					String target = groupVideoField.getText();
-					boolean flag = true;
-					for (int i = 0; i < displayGroupBox.getItemCount(); i++) {
-						if (displayGroupBox.getItemAt(i).equals(target)) {
-							flag = false;
-							break;
-						}
-					}
-					if (flag){
-						displayGroupBox.addItem(groupVideoField.getText());
-						deleteGroupBox.addItem(groupVideoField.getText());
-					}
-					} else{
-						textArea.setText(response);
-						}
+				} else{
+					textArea.setText(response);
+				}
 			}
 			else{
 				textArea.setText("Please enter an integer value in duration");
 			}
-			
-			repaint();
-			
-			
-		}
+			// Empty fields
+			nameVideoField.setText("");
+			pathVideoField.setText("");
+			durationVideoField.setText("");
+			groupVideoField.setText("");
 		
+		}
 	}
 
 	class CreateGroupButtonListener implements ActionListener {
+		/* 
+		 * Creates a Group
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String request = "create Group " + nameGroupField.getText() ;
 			String response = client.send(request);
 			if (response.equals("Done")){
-				// Adding the new name to the Combo Boxes
-				displayGroupBox.addItem(nameGroupField.getText());
-				deleteGroupBox.addItem(nameGroupField.getText());
 				textArea.setText("The Group " + nameGroupField.getText() + " was created successully !");
 			}
 			else{
 				textArea.setText(response);
 			}
-			repaint();
+			// Empty fields
+			nameGroupField.setText("");
 		}
 		
 		
 	}
 	class DisplayActionListener implements ActionListener {
+		/* 
+		 * Displays a Multimedia or a group
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String request = "display "  + displayButtonGroup.getSelection().getActionCommand() + " ";
-			 //+ displayGroupBox.getSelectedItem();
-			if (displayButtonGroup.getSelection().getActionCommand().equals("Group")){
-				request = request + displayGroupBox.getSelectedItem();
+			try{
+				String choice = displayButtonGroup.getSelection().getActionCommand();
+				String request = "display "  + choice + " " + displayTextField.getText();
+				String response = client.send(request);
+				textArea.setText(response);
+				// Empty fields
+				displayTextField.setText("");
+			} catch (Exception ex){
+				textArea.setText("Please make a choice and enter a name");
 			}
-			else{
-				request = request + displayMBox.getSelectedItem();
-			}
-			String response = client.send(request);
-			textArea.setText(response);
+			
 		}
+		
 		
 	}
 	
 	class DeleteActionListener implements ActionListener {
+		/* 
+		 * Deletes a Multimedia or a Group
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String request = "delete "  + deleteButtonGroup.getSelection().getActionCommand() + " ";
-			// + deleteBox.getSelectedItem();
-			if (deleteButtonGroup.getSelection().getActionCommand().equals("Group")){
-				String group_name = deleteGroupBox.getSelectedItem();
-				request = request + group_name;
-				String response = client.send(request);
-				if(response.equals("Done")){
-					deleteGroupBox.removeItem(group_name);
-					displayGroupBox.removeItem(group_name);
-				}
-				else{
-					textArea.setText(response);
-				}
-
-			}
-			else{
-				String m_name =  deleteMBox.getSelectedItem();
-				request = request + m_name;
+			try{
+				String choice = deleteButtonGroup.getSelection().getActionCommand();
+				String request = "delete "  +  " " + deleteTextField.getText();
 				String response = client.send(request);
 				if (response.equals("Done")){
-					deleteMBox.removeItem(m_name);
-					displayMBox.removeItem(m_name);
-					playBox.removeItem(m_name);
+					textArea.setText("Successfully deleted");
 				}
-				else{
-					textArea.setText(response);
-				}
+				else{ textArea.setText(response);}
+				// Empty fields
+				deleteTextField.setText("");
+			} catch(Exception ex){
+				textArea.setText("Please make a choice and enter a name");
 			}
 			
-			repaint();
-		}
-		
+			
+			
+			}
 	}
+		
+	
 	class PlayActionListener implements ActionListener {
+		/* 
+		 * Plays a Multimedia
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String request = "play " + playBox.getSelectedItem();
+			String request = "play " + playTextField.getText();
 			String response = client.send(request);
 			textArea.setText(response);
+			playTextField.setText("");
 		}
 		
 	}
 	
 }
+
+
+

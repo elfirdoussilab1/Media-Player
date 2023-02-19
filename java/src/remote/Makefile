@@ -14,7 +14,7 @@ PROG = RemoteControl
 #
 # Fichiers sources .java
 #
-SOURCES = Remote.java  Client.java 
+SOURCES =  Client.java Remote.java 
 
 #
 # Compilateur Java

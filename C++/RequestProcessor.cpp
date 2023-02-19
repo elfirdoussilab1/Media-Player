@@ -37,6 +37,10 @@ string create(vector<string> request, DatabasePtr database){
         }
     }
     else if(request.at(1).compare("Group") == 0){
+        if (request.size() < 3){
+            response = "Please choose a name";
+            return response;
+        }
         // request = {"create", "Group", "name"}
         GroupPtr g = database->createGroup(request.at(2));
         if (g == nullptr){
@@ -52,6 +56,10 @@ string create(vector<string> request, DatabasePtr database){
 string play(vector<string> request, DatabasePtr database){
     // request[0] = {"play", "name"}
     string response;
+    if (request.size() < 2){
+        response = "Please enter a name";
+        return response;
+    }
     int i = database->playMultimedia(request.at(1));
     if (i){
         response = "Multimedia " + request.at(1) + " is played successfully";
@@ -67,6 +75,10 @@ string play(vector<string> request, DatabasePtr database){
 string deleteM(vector<string> request, DatabasePtr database){
     //request = {"delete", "Multimedia","name"} or request = {"delete", "Group", "name"}
     string response;
+    if (request.size() < 3){
+        response = "Please enter make a choice and enter a name";
+        return response;
+    }
     if (request.at(1).compare("Multimedia") == 0){
         int i = database->deleteMultimedia(request.at(2));
         if(i){response = "Done";}
@@ -87,6 +99,10 @@ string display(vector<string> request, DatabasePtr database){
     string response;
     stringstream ss;
     int res;
+    if (request.size() < 3){
+        response = "Please make a choise and enter a name";
+        return response;
+    }
     if (request.at(1).compare("Multimedia") == 0){
         res = database->displayMultimedia(request.at(2), ss);
         if(res == 0){   

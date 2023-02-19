@@ -14,14 +14,15 @@
 #include "Group.h"
 #include "Database.h"
 #include "RequestProcessor.h"
+
 #define OLD_VERSION
 const int PORT = 3331;
 using namespace std;
 
 /// @brief We define a function that extract every string of a stringstream
-///        And store the result in a map
+///        And store the result in a vector
 /// @param ss 
-/// @return 
+/// @return a vector of each word
 vector<string> extract(stringstream & ss){
     vector<string> v;
     int i = 0;
@@ -37,13 +38,6 @@ int main(int argc, const char* argv[])
 {
     // define a database to test our methods with
     DatabasePtr database = make_shared<Database>(); 
-    PhotoPtr photo1 = database->createPhoto("Photo1", "/Users/aelfirdo/Desktop/Linkedin.jpeg", 10, 20);
-    PhotoPtr photo2 = database->createPhoto("Photo2", "/Users/aelfirdo/Desktop/5518082.jpg", 10, 20);
-    VideoPtr video = database->createVideo("Video1", "/Users/aelfirdo/Desktop/video.mp4", 98);
-    GroupPtr group = database->createGroup("Group1");
-    group->addMultimedia(photo1);
-    group->addMultimedia(photo2);
-    group ->addMultimedia(video);
     // cree le TCPServer
     auto* server =
     new TCPServer( [&](std::string const & request, std::string & response) {
@@ -67,7 +61,7 @@ int main(int argc, const char* argv[])
 
     int status = server->run(PORT);
 
-    // en cas d'erreur
+    // en cas d'erreur
     if (status < 0) {
         std::cerr << "Could not start Server on port " << PORT << std::endl;
         return 1;
@@ -76,8 +70,9 @@ int main(int argc, const char* argv[])
 
 
 
-
+/*
     #ifndef OLD_VERSION
+    
 
     // cree le TCPServer
     auto* server =
@@ -105,7 +100,7 @@ int main(int argc, const char* argv[])
         return 1;
     }
 
-    #endif
+    #endif */
     return 0;
 };
 

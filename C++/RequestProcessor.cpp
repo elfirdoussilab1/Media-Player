@@ -69,12 +69,12 @@ string deleteM(vector<string> request, DatabasePtr database){
     string response;
     if (request.at(1).compare("Multimedia") == 0){
         int i = database->deleteMultimedia(request.at(2));
-        if(i){response = "Multimedia " + request.at(2) + " was deleted successfuly !";}
+        if(i){response = "Done";}
         else{response = "Multimedia "+ request.at(2) + " doesn't even exist";}
     }
     else {
         int res = database->deleteGroup(request.at(2));
-        if (res){response = "Group " + request.at(2) + " was deleted successfully !";}
+        if (res){response = "Done";}
         else{response = "Group " + request.at(2) + " doesn't even exist !";}
         
     }

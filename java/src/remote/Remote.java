@@ -30,44 +30,44 @@ public class Remote extends JFrame{
 		super("Java Remote Control");
 		this.client = client;
 	}
+
+	/**
+	 * @param strNum
+	 * @return A boolean indicating wether a string is integer or not
+	 */
+	public boolean isNumeric(String strNum) {
+		if (strNum == null) {
+			return false;
+		}
+		try {
+			int d = Integer.parseInt(strNum);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * @param name
 	 * The constructor of our Remote Control
 	 */
 	public void GoClient() {
 		// Creating JPanel with a GridLayout of 7 rows and 1 column
-		mainPanel = new JPanel(new GridLayout(8, 1));
-		
-		// Creating a Film
-		filmPanel = new JPanel(new FlowLayout()); 
-		createFilmButton = new JButton("Create Film");
-		createFilmButton.setPreferredSize(new Dimension(200, 30));
-		nameFilmField = new JTextField("Enter name");
-		pathFilmField = new JTextField("Enter path");
-		durationFilmField = new JTextField("Enter duration");
-		nchaptersField = new JTextField("number of chapters");
-		chaptersFilmField = new JTextField("chapters");
-		groupFilmField = new JTextField("Group");
-		filmPanel.add(createFilmButton);
-		filmPanel.add(nameFilmField);
-		filmPanel.add(pathFilmField);
-		filmPanel.add(durationFilmField);
-		filmPanel.add(nchaptersField);
-		filmPanel.add(chaptersFilmField);
-		filmPanel.add(groupFilmField);
-
-		mainPanel.add(filmPanel);
+		mainPanel = new JPanel(new GridLayout(7, 1));
 
 		// First row : Create Photo
 		photoPanel = new JPanel(new FlowLayout()); 
 		createPhotoButton = new JButton("Create Photo");
 		createPhotoButton.setPreferredSize(new Dimension(200, 30));
-		namePhotoField = new JTextField("Enter name");
-		pathPhotoField = new JTextField("Enter path");
-		lengthPhotoField = new JTextField("Enter length");
-		heightPhotoField = new JTextField("Enter height");
+		JLabel lableemail=new JLabel("Enter The name");
+		namePhotoField = new JTextField("Name");
+		namePhotoField.setColumns(15);
+		pathPhotoField = new JTextField("Path");
+		lengthPhotoField = new JTextField("Length");
+		heightPhotoField = new JTextField("Height");
 		groupPhotoField = new JTextField("Group");
 		photoPanel.add(createPhotoButton);
+		photoPanel.add(lableemail);
 		photoPanel.add(namePhotoField);
 		photoPanel.add(pathPhotoField);
 		photoPanel.add(lengthPhotoField);
@@ -122,14 +122,8 @@ public class Remote extends JFrame{
 		displayPanel.add(displayRadioPanel);
 		displayGroupBox = new JComboBox<String>();
 		displayMBox = new JComboBox<String>();
-		// Combo Box
-		if(displayButtonGroup.getSelection().getActionCommand().equals("Group")){
-			displayPanel.add(displayGroupBox);
-		}
-		else{
-			displayPanel.add(displayGroupBox);
-
-		}
+		displayPanel.add(displayMBox);
+		displayPanel.add(displayGroupBox);
 		// We will fill it later
 		mainPanel.add(displayPanel);
 
@@ -154,12 +148,8 @@ public class Remote extends JFrame{
 		// Combo Box
 		deleteGroupBox = new JComboBox<String>();
 		deleteMBox = new JComboBox<String>();
-		if (deleteButtonGroup.getSelection().getActionCommand().equals("Group")){
-			deletePanel.add(deleteGroupBox);
-		}
-		else{
-			deletePanel.add(deleteMBox);
-		}
+		deletePanel.add(deleteMBox);
+		deletePanel.add(deleteGroupBox);
 		mainPanel.add(deletePanel);
 
 		// Play
@@ -179,7 +169,6 @@ public class Remote extends JFrame{
 		// connecting buttons to their listeners
 		createPhotoButton.addActionListener(new CreatePhotoButtonListener());
 		createVideoButton.addActionListener(new CreateVideoButtonListener());
-		createFilmButton.addActionListener(new CreateFilmButtonListener());
 		createGroupButton.addActionListener(new CreateGroupButtonListener());
 		deleteButton.addActionListener(new DeleteActionListener());
 		playButton.addActionListener(new PlayActionListener());
@@ -187,7 +176,7 @@ public class Remote extends JFrame{
 
 		// Setting default functions related to our Frame
 		add(mainPanel);
-		this.setSize(250,500);
+		this.setSize(200,200);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		pack();
@@ -199,30 +188,41 @@ public class Remote extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			String request = "create Photo " + namePhotoField.getText() + " " + 
 			pathPhotoField.getText() + " " +lengthPhotoField.getText() + " " + heightPhotoField.getText() + " " + groupPhotoField.getText();
-			String response = client.send(request);
-			if(response.equals("Done")){
-				textArea.setText("The Photo "+ namePhotoField.getText() + " was created successfully");
-				// Add item to display
-				displayMBox.addItem(namePhotoField.getText());
-				deleteMBox.addItem(namePhotoField.getText());
-				// Add the group name if it doesn't exist already
-				String target = groupPhotoField.getText();
-				boolean flag = true;
-				for (int i = 0; i < displayGroupBox.getItemCount(); i++) {
-					if (displayGroupBox.getItemAt(i).equals(target)) {
-						flag = false;
-						break;
+			// test if the length and duration are integers
+			String length = lengthPhotoField.getText();
+			String height = heightPhotoField.getText();
+			if (isNumeric(length) && isNumeric(height)){
+				String response = client.send(request);
+				if(response.equals("Done")){
+					textArea.setText("The Photo "+ namePhotoField.getText() + " was created successfully");
+					// Add item to display
+					displayMBox.addItem(namePhotoField.getText());
+					deleteMBox.addItem(namePhotoField.getText());
+					playBox.addItem(namePhotoField.getText());
+					// Add the group name if it doesn't exist already
+					String target = groupPhotoField.getText();
+					boolean flag = true;
+					for (int i = 0; i < displayGroupBox.getItemCount(); i++) {
+						if (displayGroupBox.getItemAt(i).equals(target)) {
+							flag = false;
+							break;
+						}
 					}
+					if (flag){
+						displayGroupBox.addItem(groupPhotoField.getText());
+						deleteGroupBox.addItem(groupPhotoField.getText());
+					}
+				} else{
+					textArea.setText(response);
+					
 				}
-				if (flag){
-					displayGroupBox.addItem(groupPhotoField.getText());
-					deleteGroupBox.addItem(groupPhotoField.getText());
-				}
-			} else{
-				repaint();
+			}else{ // non integer values
+				textArea.setText("PLease enter and integer in both length and height fields");
 			}
 			
-			textArea.setText(response);
+			repaint();
+			
+			
 			
 
 		}
@@ -234,43 +234,39 @@ public class Remote extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			String request = "create Video " + nameVideoField.getText() + " " + 
 			pathVideoField.getText() + " " +durationVideoField.getText() + " " + groupVideoField.getText();
-			String response = client.send(request);
-			if (response.equals("Done")){
-				textArea.setText("The Video "+ nameVideoField.getText() + " was created successfully");
-				// Add item to display
-				displayMBox.addItem(nameVideoField.getText());
-				deleteMBox.addItem(nameVideoField.getText());
-				// Add the group name if it doesn't exist already
-				String target = groupVideoField.getText();
-				boolean flag = true;
-				for (int i = 0; i < displayGroupBox.getItemCount(); i++) {
-					if (displayGroupBox.getItemAt(i).equals(target)) {
-						flag = false;
-						break;
+			String duration = durationVideoField.getText();
+			if(isNumeric(duration)){
+				String response = client.send(request);
+				if (response.equals("Done")){
+					textArea.setText("The Video "+ nameVideoField.getText() + " was created successfully");
+					// Add item to display
+					displayMBox.addItem(nameVideoField.getText());
+					deleteMBox.addItem(nameVideoField.getText());
+					playBox.addItem(nameVideoField.getText());
+					// Add the group name if it doesn't exist already
+					String target = groupVideoField.getText();
+					boolean flag = true;
+					for (int i = 0; i < displayGroupBox.getItemCount(); i++) {
+						if (displayGroupBox.getItemAt(i).equals(target)) {
+							flag = false;
+							break;
+						}
 					}
-				}
-				if (flag){
-					displayGroupBox.addItem(groupVideoField.getText());
-					deleteGroupBox.addItem(groupVideoField.getText());
-				}
-			} else{
-				textArea.setText(response);
+					if (flag){
+						displayGroupBox.addItem(groupVideoField.getText());
+						deleteGroupBox.addItem(groupVideoField.getText());
+					}
+					} else{
+						textArea.setText(response);
+						}
 			}
+			else{
+				textArea.setText("Please enter an integer value in duration");
+			}
+			
 			repaint();
 			
 			
-		}
-		
-	}
-
-	class CreateFilmButtonListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String request = "create Film " + nameFilmField.getText() + " " + 
-			pathFilmField.getText() + " " + durationFilmField.getText() + " " + nchaptersField.getText() +
-			" " + chaptersFilmField.getText();
-			String response = client.send(request);
-			textArea.setText(response);
 		}
 		
 	}
@@ -283,6 +279,7 @@ public class Remote extends JFrame{
 			if (response.equals("Done")){
 				// Adding the new name to the Combo Boxes
 				displayGroupBox.addItem(nameGroupField.getText());
+				deleteGroupBox.addItem(nameGroupField.getText());
 				textArea.setText("The Group " + nameGroupField.getText() + " was created successully !");
 			}
 			else{
@@ -316,13 +313,33 @@ public class Remote extends JFrame{
 			String request = "delete "  + deleteButtonGroup.getSelection().getActionCommand() + " ";
 			// + deleteBox.getSelectedItem();
 			if (deleteButtonGroup.getSelection().getActionCommand().equals("Group")){
-				request = request + deleteGroupBox.getSelectedItem();
+				String group_name = deleteGroupBox.getSelectedItem();
+				request = request + group_name;
+				String response = client.send(request);
+				if(response.equals("Done")){
+					deleteGroupBox.removeItem(group_name);
+					displayGroupBox.removeItem(group_name);
+				}
+				else{
+					textArea.setText(response);
+				}
+
 			}
 			else{
-				request = request + deleteMBox.getSelectedItem();
+				String m_name =  deleteMBox.getSelectedItem();
+				request = request + m_name;
+				String response = client.send(request);
+				if (response.equals("Done")){
+					deleteMBox.removeItem(m_name);
+					displayMBox.removeItem(m_name);
+					playBox.removeItem(m_name);
+				}
+				else{
+					textArea.setText(response);
+				}
 			}
-			String response = client.send(request);
-			textArea.setText(response);
+			
+			repaint();
 		}
 		
 	}

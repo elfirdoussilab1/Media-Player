@@ -1,9 +1,20 @@
-PROG = Main
+##########################################
+#
+#  Exemple de Makefile
+#  Eric Lecolinet - Reda Dehak - Telecom ParisTech 2015
+#  INF224 - TP Java/Swing - http://www.telecom-paristech.fr/~elc/inf224
+#
+##########################################
+
+#
+# Nom du programme (doit correspondre au fichier qui contient main())
+#
+PROG = RemoteControl
 
 #
 # Fichiers sources .java
 #
-SOURCES = Main.java Remote.java Client.java 
+SOURCES = Remote.java  Client.java 
 
 #
 # Compilateur Java

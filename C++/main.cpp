@@ -33,7 +33,6 @@ vector<string> extract(stringstream & ss){
     return v;
 }
 
-extern my_functions;
 int main(int argc, const char* argv[])
 {
     // define a database to test our methods with

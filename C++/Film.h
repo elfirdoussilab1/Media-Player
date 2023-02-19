@@ -23,10 +23,21 @@ class Film:public Video{
     /// @param n_chapters 
     /// @param chapters_ 
     Film(string const & name, string const & path, int duration, int n_chapters, int * chapters_): Video(name,path, duration), n_chapters(n_chapters){
-        chapters = new int[n_chapters];
-        for (int i=0; i<n_chapters; i++){
-            chapters[i] = chapters_[i];
+        if (n_chapters == 0){
+            chapters = nullptr;
         }
+        else{
+             // Possible Segmentation Fault
+                chapters = new int[n_chapters];
+                for (int i=0; i<n_chapters; i++){
+                    try{ // Possible Segmentation Fault
+                        chapters[i] = chapters_[i];
+                    }catch(const exception& e) {chapters[i] = 0 ;}
+                    
+            }
+            
+        }
+        
     };
 
     /// @brief Copy constructor (to perform deep copy)

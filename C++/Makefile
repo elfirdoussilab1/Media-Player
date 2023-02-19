@@ -1,7 +1,5 @@
 ##########################################
 #
-#  Exemple de Makefile
-#  Eric Lecolinet - Reda Dehak - Telecom ParisTech 2015
 #  INF224 - TP C++ - http://www.telecom-paristech.fr/~elc/inf224
 #
 ##########################################
@@ -14,7 +12,7 @@ PROG = myprog
 #
 # Fichiers sources (NE PAS METTRE les .h ni les .o seulement les .cpp)
 #
-SOURCES = Multimedia.cpp main.cpp 
+SOURCES = tcpserver.cpp ccsocket.cpp RequestProcessor.cpp Multimedia.cpp main.cpp
 
 #
 # Fichiers objets (ne pas modifier sauf si l'extension n'est pas .cpp)
@@ -43,7 +41,7 @@ LDFLAGS =
 # Librairies a utiliser
 # Exemple: LDLIBS = -L/usr/local/qt/lib -lqt
 #
-LDLIBS = 
+LDLIBS = -lpthread
 
 
 ##########################################

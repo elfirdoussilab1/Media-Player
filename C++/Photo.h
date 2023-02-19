@@ -21,7 +21,7 @@ class Photo:public Multimedia {
         /// @param path 
         /// @param length 
         /// @param height 
-        Photo(string const & name, string const & path, int length, int height) : Multimedia(name,path),length(length),height(height){};
+        Photo(string const & name, string const & path, int length, int height) : Multimedia(name,path), length(length), height(height){}
 
         
         /// @brief Destructor of photo

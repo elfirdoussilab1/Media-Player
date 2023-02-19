@@ -11,6 +11,7 @@
 #include "Group.h"
 #include "Database.h"
 #include "RequestProcessor.h"
+
 #define OLD_VERSION
 const int PORT = 3331;
 using namespace std;
@@ -29,7 +30,7 @@ vector<string> extract(stringstream & ss){
     }
     return v;
 }
-extern map<string, std::function <string const &(vector<string> const &, DatabasePtr )>> my_functions;
+
 int main(int argc, const char* argv[])
 {
     // define a database to test our methods with

@@ -36,11 +36,17 @@ class Database{
         /// @param height 
         /// @return a shared pointer of Photo object
         PhotoPtr createPhoto(string const & name, string const & path, int length, int height){
-            PhotoPtr p = make_shared<Photo>(name, path, length, height);
-            multimedias[name] = p;
-            return p;
+            // check if no other Multimedia has the same name
+            auto it = multimedias.find(name);
+            if (it == multimedias.end()){
+                if (length >= 0 && height >= 0) {
+                    PhotoPtr p = make_shared<Photo>(name, path, length, height);
+                    multimedias[name] = p;
+                    return p;
+                }
+            }
+            return nullptr;
         }
-    
         
         /// @brief Creates a Video and add it to multimedias
         /// @param name 
@@ -48,9 +54,16 @@ class Database{
         /// @param duration 
         /// @return a shared pointer of Video object
         VideoPtr createVideo(string const & name, string const & path, int duration){
-            VideoPtr v = make_shared<Video>(name, path, duration);
-            multimedias[name] = v;
-            return v;
+            auto it = multimedias.find(name);
+            if (it == multimedias.end()){
+                if (duration >= 0){
+                    VideoPtr v = make_shared<Video>(name, path, duration);
+                    multimedias[name] = v;
+                    return v;
+                }
+            } 
+            return nullptr;
+
         }
     
     
@@ -62,48 +75,66 @@ class Database{
         /// @param chapters 
         /// @return a shared pointer of Film object
         FilmPtr createFilm(string const & name, string const & path, int duration, int n_chapters, int * chapters){
-            FilmPtr f = make_shared<Film>(name, path, duration, n_chapters, chapters);
-            multimedias[name] = f;
-            return f;
+            auto it = multimedias.find(name);
+            if (it == multimedias.end()){
+                if(duration >=0 && n_chapters >=0){
+                    FilmPtr f = make_shared<Film>(name, path, duration, n_chapters, chapters);
+                    multimedias[name] = f;
+                    return f;
+                }
+            }
+            return nullptr;
+            
         }
         
         /// @brief Creates a Group and add it to the map groups
         /// @param name 
         /// @return shared pointer of Group object
         GroupPtr createGroup(string const & name){
-            GroupPtr g = make_shared<Group>(name);
-            groups[name] = g;
-            return g;
+            // See if no other group has the same name
+            auto it = groups.find(name);
+            if (it == groups.end()){
+                GroupPtr g = make_shared<Group>(name);
+                groups[name] = g;
+                return g;
+            }
+            return nullptr;
+            
         }
 
         /// @brief Adding a Multimedia object ot a certain group
         /// @param m 
         /// @param name 
-        void addMultimediaToGroup(string const & m_name, string const & g_name){
-            auto it = groups.find(g_name);
-            if(it != groups.end()){
+        int addMultimediaToGroup(string const & m_name, string const & g_name){
+            // First we check if the Multimedia object exists
+            auto it = multimedias.find(m_name);
+            if (it == multimedias.end()){
+                return 0;
+            }
+            auto it2 = groups.find(g_name);
+            if(it2 != groups.end()){
                 MultimediaPtr m = multimedias.find(m_name)->second;
-                it->second->addMultimedia(m);
+                it2->second->push_back(m);
             }
             else{ // we create the group
                 GroupPtr new_group = this->createGroup(g_name);
                 auto it = multimedias.find(m_name);
-                new_group->addMultimedia(it->second);
+                new_group->push_back(it->second);
             }
+            return 1;
         }
 
 
         /// @brief Displays the values of a Multimedia object in multimedias
         /// @param name 
         /// @param s 
-        void displayMultimedia(string const & name, ostream & s)const {
+        int displayMultimedia(string const & name, ostream & s)const {
             auto it = multimedias.find(name);
             if(it != multimedias.end()){
                 it->second->printValues(s); 
+                return 1;
             }
-            else{
-                cout << "Multimedia not found, please check if the entered name is correct \n";
-            }
+                return 0; // Multimedia not found
             
         }
 
@@ -116,14 +147,13 @@ class Database{
         /// @brief Displays the elements of a Group contained in groups
         /// @param name 
         /// @param s 
-        void displayGroup(string const & name, ostream & s) const {
+        int displayGroup(string const & name, ostream & s) const {
             auto it = groups.find(name);
             if(it != groups.end()){
                 it->second->display(s);
+                return 1;
             }
-            else{
-                cout << "Group not found, please check if the entered name is correct \n";
-            }
+            return 0;
             
         }
         
@@ -136,9 +166,7 @@ class Database{
                 it->second->playMedia();
                 return  1;
             }
-            else{
-                return 0;
-            }
+            return 0;
             
         };
         
@@ -146,21 +174,21 @@ class Database{
         
         /// @brief Deletes a group from groups
         /// @param name 
-        void deleteGroup(string const & name){
+        int deleteGroup(string const & name){
             auto it = groups.find(name);
             if(it != groups.end()){
                 groups.erase(it);
+                return 1;
             }
-            else{
-                cout << "Group not found, please check if you entered the correct group name \n";
-            }
+
+            return 0; // Group not found
             
         };
         
     
         /// @brief Deletes a Multimedia object from multimedias and groups
         /// @param name_ 
-        void deleteMultimedia(string const & name_){
+        int deleteMultimedia(string const & name_){
             // Removing the Multimedia object from every group
             map<string, GroupPtr>::iterator it2 ;
             string name = name_;
@@ -173,11 +201,14 @@ class Database{
             auto it = multimedias.find(name_);
             if(it != multimedias.end()){
                 multimedias.erase(it);
+                return 1;
             }
+            return 0;
+            
             
         }
         
 };
 
 typedef shared_ptr<Database> DatabasePtr;
-#endif /* Group_h */
+#endif /* Database_h */
